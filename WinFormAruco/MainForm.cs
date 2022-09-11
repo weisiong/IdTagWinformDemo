@@ -14,8 +14,9 @@ namespace WinFormAruco
             CvInvoke.Init();
         }
 
+        const string url = "http://admin:joseph12345@192.168.1.64/ISAPI/Streaming/channels/101/picture";
         //const string url = "C:\\Users\\weisi\\Web\\CaptureFiles\\2022-09-05\\pic03.jpg";
-        const string url = "ArucoCode.jpg";
+        //const string url = "ArucoCode.jpg";
         private void useThisFrameButton_Click(object sender, EventArgs e)
         {
             _detectorParameters = DetectorParameters.GetDefault();
@@ -45,39 +46,36 @@ namespace WinFormAruco
                         });
                         ArucoInvoke.DrawDetectedMarkers(_frameCopy, corners, ids, new MCvScalar(0, 255, 0));
 
-                        if (!_cameraMatrix.IsEmpty && !_distCoeffs.IsEmpty)
-                        {
-                            ArucoInvoke.EstimatePoseSingleMarkers(corners, markersLength, _cameraMatrix, _distCoeffs, rvecs, tvecs);
-                            for (int i = 0; i < ids.Size; i++)
-                            {
-                                using (Mat rvecMat = rvecs.Row(i))
-                                using (Mat tvecMat = tvecs.Row(i))
-                                using (VectorOfDouble rvec = new VectorOfDouble())
-                                using (VectorOfDouble tvec = new VectorOfDouble())
-                                {
-                                    double[] values = new double[3];
-                                    rvecMat.CopyTo(values);
-                                    rvec.Push(values);
-                                    tvecMat.CopyTo(values);
-                                    tvec.Push(values);
+                        //if (!_cameraMatrix.IsEmpty && !_distCoeffs.IsEmpty)
+                        //{
+                        //    ArucoInvoke.EstimatePoseSingleMarkers(corners, markersLength, _cameraMatrix, _distCoeffs, rvecs, tvecs);
+                        //    for (int i = 0; i < ids.Size; i++)
+                        //    {
+                        //        using (Mat rvecMat = rvecs.Row(i))
+                        //        using (Mat tvecMat = tvecs.Row(i))
+                        //        using (VectorOfDouble rvec = new VectorOfDouble())
+                        //        using (VectorOfDouble tvec = new VectorOfDouble())
+                        //        {
+                        //            double[] values = new double[3];
+                        //            rvecMat.CopyTo(values);
+                        //            rvec.Push(values);
+                        //            tvecMat.CopyTo(values);
+                        //            tvec.Push(values);
+                        //            ArucoInvoke.DrawAxis(_frameCopy, _cameraMatrix, _distCoeffs, rvec, tvec, markersLength * 0.5f);
 
+                        //        }
+                        //    }
+                        //}
 
-                                    ArucoInvoke.DrawAxis(_frameCopy, _cameraMatrix, _distCoeffs, rvec, tvec,
-                                       markersLength * 0.5f);
-
-                                }
-                            }
-                        }
-
-                        if (_useThisFrame)
-                        {
-                            _allCorners.Push(corners);
-                            _allIds.Push(ids);
-                            _markerCounterPerFrame.Push(new int[] { corners.Size });
-                            _imageSize = _frame.Size;
-                            UpdateMessage(String.Format("Using {0} points", _markerCounterPerFrame.ToArray().Sum()));
-                            _useThisFrame = false;
-                        }
+                        //if (_useThisFrame)
+                        //{
+                        //    _allCorners.Push(corners);
+                        //    _allIds.Push(ids);
+                        //    _markerCounterPerFrame.Push(new int[] { corners.Size });
+                        //    _imageSize = _frame.Size;
+                        //    UpdateMessage(String.Format("Using {0} points", _markerCounterPerFrame.ToArray().Sum()));
+                        //    _useThisFrame = false;
+                        //}
                     }
                     else
                     {
